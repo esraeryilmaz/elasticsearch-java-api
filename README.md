@@ -19,7 +19,7 @@ Representational state transfer (REST) is a software architectural style that de
 
 - REST API is one of the most widely used API in Java.
 
-<img src="" width="400"/>
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/rest.png" width="600"/>
 
 ## Getting Started
 
@@ -28,7 +28,7 @@ Representational state transfer (REST) is a software architectural style that de
 2. Install Java for Windows. Also IDE should be downloaded, I recommend Eclipse.
 
 3. Go to https://start.spring.io/ and create spring project. Add dependencies.
-<img src="" width="400"/>
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/spring%20project.PNG" />
 
 4. Open this spring project in Eclipse (File > Import > Existing maven project > Next > Browse > Find project > Select Folder > Finish). We can add various dependencies to the pom.xml file in the project. It can stay like this for now.
 
@@ -36,7 +36,7 @@ Representational state transfer (REST) is a software architectural style that de
 
 **`POM`** : Stands for "Project Object Model". It is an XML representation of a Maven project held in a file named pom.xml.
 
-<img src="" width="400"/>
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/eclipse.PNG"/>
 
 - Packages will be created under src/main/java and new classes will be created under these packages.
 
@@ -44,9 +44,10 @@ Representational state transfer (REST) is a software architectural style that de
 ## How to implement Elasticsearch with Java ?
 
 ### Here is a simple example :
-<img src="" width="400"/>
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/java1.png"/>
 
 ### Building simple Java EE application that calls Rest services. (example API : https://my-json-server.typicode.com/typicode/demo/posts)
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/java2.png" />
 
 ### Building Java EE application that adds data into the elasticsearch.
 
@@ -106,6 +107,7 @@ updateRequest1.doc("firstName", "Zeynep");
 UpdateResponse updateResponse1 = client.update(updateRequest1, RequestOptions.DEFAULT);
 System.out.println("updated response id: "+ updateResponse1.getId());
 ```
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/update1.PNG" />
 
 - DATA UPDATE WAY2 : Updating Id with particular Map values
 	
@@ -119,6 +121,7 @@ UpdateRequest updateRequest2 = new UpdateRequest("sampleindex", "003").doc(updat
 UpdateResponse updateResponse2 = client.update(updateRequest2, RequestOptions.DEFAULT);
 System.out.println("updated response id: "+updateResponse2.getId());
 ```
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/update2.PNG" />
 
 - DATA UPDATE WAY3 : Inserting class object's data
 ```java
@@ -130,6 +133,7 @@ IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
 System.out.println("response id:" + indexResponse.getId());
 System.out.println(indexResponse.getResult().name());
 ```
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/update3.PNG"/>
 
 - DATA DELETION WAY1 : Delete particular record
 ```java
@@ -158,7 +162,7 @@ if(getResponseGet.isExists()) {
 	System.out.println(sourceAsMap);
 }
 ```
-<img src="" width="400"/>
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/data%20getting.png" />
 
 
 ### KEEP IN MIND :  
