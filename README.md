@@ -51,6 +51,35 @@ Representational state transfer (REST) is a software architectural style that de
 
 ### Building Java EE application that adds data into the elasticsearch.
 
+- We are gonna use libraries such as rest high level client, so first update the pom.xml file.
+
+Add the following :
+```xml
+<dependency>
+	<groupId>org.elasticsearch.client</groupId>
+	<artifactId>elasticsearch-rest-high-level-client</artifactId>
+	<version>7.9.2</version>
+</dependency>
+
+<dependency>
+	<groupId>org.elasticsearch.client</groupId>
+	<artifactId>elasticsearch-rest-client</artifactId>
+	<version>7.9.2</version>
+</dependency>
+
+<dependency>
+	<groupId>org.elasticsearch</groupId>
+	<artifactId>elasticsearch</artifactId>
+	<version>7.9.2</version><!--$NO-MVN-MAN-VER$-->
+</dependency>
+
+<dependency>
+	<groupId>com.fasterxml.jackson.core</groupId>
+	<artifactId>jackson-databind</artifactId>
+	<version>2.11.1</version>
+</dependency>
+```
+
 - CONNECTION : It is responsible to make connection with ElasticSearch from Java client.
 ```java
 RestHighLevelClient client = new RestHighLevelClient(
