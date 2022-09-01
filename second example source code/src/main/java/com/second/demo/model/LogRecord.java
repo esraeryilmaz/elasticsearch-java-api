@@ -81,11 +81,9 @@ public class LogRecord {
 	}
 
 
-
 	public SeverityEnum getSeverity() {
 		return severity;
 	}
-
 
 
 	public void setSeverity(SeverityEnum severity) {

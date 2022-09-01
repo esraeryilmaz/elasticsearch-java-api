@@ -19,7 +19,7 @@ import com.second.demo.model.LogRecord;
  */
 
 @Repository
-public interface RecordRepository extends ElasticsearchRepository<LogRecord, String>{
+public interface RecordRepository extends ElasticsearchRepository<LogRecord, String> {
 
 	Page<LogRecord> findByDate(Date date, Pageable pageable);
 	List<LogRecord> findByMessage(String message);
