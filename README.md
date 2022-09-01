@@ -227,9 +227,172 @@ Those three annotations have some special features than the @Component annotatio
 * ```@Service``` : This is an alternative to @Component that specifies you intend to use the class as part of your service layer. 
 * ```@Repository``` : This annotation marks a class as part of your data layer, for handling storage, retrieval, and search. 
 
-
-### Project Structure 
+### Project Structure : 
 <img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/project%20structure.PNG"/>
+
+#### ```Configuration``` 
+- EsConfig class configures elasticsearch to this project and make a connection with elasticsearch. This class read the application.properties file where we store the cluster name, elasticsearch host and port. 
+- @EnableElasticsearchRepositories is used to enable Elasticsearch repositories that will scan the packages of the annotated configuration class for Spring Data repositories by default. 
+- @Value is used here for reading the properties from the application.properties file.
+- The Client() method creates a transport connection with elasticsearch.
+- The configuration following sets up an Embedded Elasticsearch Server which is used by the ElasticsearchTemplate. The ElasticsearchTemplate bean uses the Elasticsearch Client and provides a custom layer for manipulating data in Elasticsearch.
+
+```java
+@Configuration
+@EnableElasticsearchRepositories(basePackages = "com.second.demo.repository")
+public class EsConfig {
+
+	@Value("${elasticsearch.host}")
+	private String EsHost;
+
+	@Value("${elasticsearch.port}")
+	private int EsPort;
+
+	@Value("${elasticsearch.clustername}")
+	private String EsClusterName;
+
+	@Bean
+	public Client client() throws Exception {
+		Settings esSettings = Settings.builder()
+				.put("cluster.name", EsClusterName)
+				.build();
+
+		return TransportClient.builder()
+				.settings(esSettings)
+				.build()
+				.addTransportAddress(
+						new InetSocketTransportAddress(InetAddress.getByName(EsHost), EsPort));
+	}
+
+	@Bean
+	public ElasticsearchOperations elasticsearchTemplate() throws Exception {
+		return new ElasticsearchTemplate(client());
+	}
+}
+```
+
+#### ```Model```
+Here we have annotated our LogRecord data objects with a @Document annotation that we can also use to determine index settings like name, numbers of shards or number of replicas. One of the attributes of the class needs to be an id, either by annotating it with @Id.
+```java
+@Document(indexName = "records", type = "log")
+public class LogRecord {
+	@Id
+	private String id;
+	private Date date;
+	private String message;
+	private SeverityEnum severity;
+
+	public enum SeverityEnum {
+		INFO,
+		ERROR,
+		WARNING,
+		DEBUG
+	};
+}
+```
+
+#### ```Repository```
+Here, We have extended ElasticsearchRepository which provide us many of apis that we don't need to define externally. This is the base repository class for elasticsearch based domain classes. Since it extends Spring based repository classes, we get the benefit of avoiding boilerplate code required to implement data access layers for various persistence stores.
+```java
+@Repository
+public interface RecordRepository extends ElasticsearchRepository<LogRecord, String> {
+	Page<LogRecord> findByDate(Date date, Pageable pageable);
+	List<LogRecord> findByMessage(String message);
+}
+```
+
+#### ```Service```
+The following class, we have @Autowired the RecordRepository. We can simply call the CRUDRepository methods and the method we have declared in repository class with the RecordRepository object.
+
+```java
+public interface RecordService {
+	LogRecord save(LogRecord record);
+	void delete(LogRecord record);
+	LogRecord findOne(String id);
+	Iterable<LogRecord> findAll();
+	Page<LogRecord> findByDate(Date date, PageRequest pageRequest);
+	List<LogRecord> findByMessage(String message);
+}
+
+@Service
+public class RecordServiceImpl implements RecordService {
+
+	private RecordRepository recordRepository;
+
+	@Autowired
+	public void setRecordRepository(RecordRepository recordRepository) {
+		this.recordRepository = recordRepository;
+	}
+
+	public LogRecord save(LogRecord record) {
+		return recordRepository.save(record);
+	}
+
+	public void delete(LogRecord record) {
+		recordRepository.delete(record);
+	}
+
+	public LogRecord findOne(String id) {
+		return recordRepository.findOne(id);
+	}
+
+	public Iterable<LogRecord> findAll() {
+		return recordRepository.findAll();
+	}
+
+	public Page<LogRecord> findByDate(Date date, PageRequest pageRequest) {
+		return recordRepository.findByDate(date, pageRequest);
+	}
+
+	public List<LogRecord> findByMessage(String message) {
+		return recordRepository.findByMessage(message);
+	}
+}
+
+```
+
+#### ```Controller```
+- @GetMapping(“”): To fetch the document from given id.
+- @PostMapping(“”): Create or update the document.
+- @DeleteMapping(“”): Use to delete the document.
+```java
+@RestController
+@RequestMapping("/records/log")
+public class LogRecordController {
+
+	@Autowired
+	private RecordService recordService;
+
+	// EX : localhost:8080/records/log/0001
+	@GetMapping("/{id}")
+	public LogRecord getById(@PathVariable String id) {
+		return recordService.findOne(id);
+	}
+
+	/*
+	 * Instead of RequestMapping you can use DeleteMapping, PostMapping...
+	 */
+
+	// EX : curl -H "Content-Type: application/json" -X POST -d '{"id":"0008", "date":978300000000,"message":"message8","severity":"ERROR"}'
+	// http://localhost:8080/records/log
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<LogRecord> insertLog(@RequestBody LogRecord log) {
+		return new ResponseEntity<LogRecord>(recordService.save(log), HttpStatus.CREATED);
+	}
+
+	// EX : localhost:8080/records/log/0009
+	// If the id's are the same as below, there is no need to write them in pathvariable.
+	@ResponseBody
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<LogRecord> deleteLog(@PathVariable("id") String id) {
+		LogRecord tmp = recordService.findOne(id);
+		recordService.delete(tmp);
+		return new ResponseEntity<LogRecord>(HttpStatus.NO_CONTENT);
+	}
+}
+```
+
 
 
 
