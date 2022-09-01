@@ -209,7 +209,7 @@ if(getResponseGet.isExists()) {
 - Java 8
 
 ### Here is the architecture : 
-<img src=""/>
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/architecture%20layers.png"/>
 
 * ```Controller``` : Controller layer contains the application logic, mapping the user request to particular functions and passing the user input to service layer to apply the business logic. 
 * ```Service``` : This is the layer between the controller and repository which performs the business logic and validation logic. The controller passes the user input to the service layer and after applying the business logic, it is passed to the repository layer. 
@@ -217,7 +217,7 @@ if(getResponseGet.isExists()) {
 * ```Model``` : Is the simple POJO classes which is acting as the DTO(Interact with application level data transfer) or DAO(Interaction with database operations)     
 
 ### The usage of the spring annotations : 
-<img src=""/>
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/annotations.png" width="500"/>
 
 * ```@Component``` : In spring framework,we can use the class level annotation @Component to order to create a bean from the class automatically and register in the Spring container to release it on demand.
 
@@ -229,7 +229,7 @@ Those three annotations have some special features than the @Component annotatio
 
 
 ### Project Structure 
-<img src=""/>
+<img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/project%20structure.PNG"/>
 
 
 
