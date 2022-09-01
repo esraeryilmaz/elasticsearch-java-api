@@ -194,10 +194,43 @@ if(getResponseGet.isExists()) {
 <img src="https://github.com/esraeryilmaz/elasticsearch-java-api/blob/main/img/data%20getting.png" />
 
 
-### KEEP IN MIND :  
+## KEEP IN MIND :  
 
 - Default server port : 8080 
 - “/” as first character at `@RequestMapping` or `@GetMapping` 
 - Annotate API class/method with `@RequestMapping` 
 - Annotation in correct line. 
+
+## Second way to implement Elasticsearch in Java Spring Boot
+
+### You need : 
+- Spring Boot 1.5.1.RELEASE
+- Elasticsearch 2.4.4
+- Java 8
+
+### Here is the architecture : 
+<img src=""/>
+
+* ```Controller``` : Controller layer contains the application logic, mapping the user request to particular functions and passing the user input to service layer to apply the business logic. 
+* ```Service``` : This is the layer between the controller and repository which performs the business logic and validation logic. The controller passes the user input to the service layer and after applying the business logic, it is passed to the repository layer. 
+* ```Repository``` : The layer which interact with the database CRUD operations via the DAOs(data access objects). 
+* ```Model``` : Is the simple POJO classes which is acting as the DTO(Interact with application level data transfer) or DAO(Interaction with database operations)     
+
+### The usage of the spring annotations : 
+<img src=""/>
+
+* ```@Component``` : In spring framework,we can use the class level annotation @Component to order to create a bean from the class automatically and register in the Spring container to release it on demand.
+
+Those three annotations have some special features than the @Component annotation ; 
+
+* ```@Controller``` : The @Controller annotation is not only registering a controller bean in the container, but also providing the capability of handling the  request mappings(@RequestMapping) received from the clients. 
+* ```@Service``` : This is an alternative to @Component that specifies you intend to use the class as part of your service layer. 
+* ```@Repository``` : This annotation marks a class as part of your data layer, for handling storage, retrieval, and search. 
+
+
+### Project Structure 
+<img src=""/>
+
+
+
 
