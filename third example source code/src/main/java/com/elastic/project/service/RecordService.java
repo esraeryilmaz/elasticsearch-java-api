@@ -15,6 +15,7 @@ public interface RecordService {
 	void delete(LogRecord record);
 	Optional<LogRecord> findOne(Long id);
 	Iterable<LogRecord> findAll();
+	void deleteById(Long id);
 	//List<LogRecord> findByDate(String date);
 
 	List<LogRecord> findByMessage(String message);
@@ -33,6 +34,7 @@ public interface RecordService {
 
 	List<LogRecord> findByDateBetweenOrderByIdDesc(LocalDateTime date1, LocalDateTime date2);
 
+	List<LogRecord> findByDateBetweenOrderByIdAsc(LocalDateTime date1, LocalDateTime date2);
 
 }
 

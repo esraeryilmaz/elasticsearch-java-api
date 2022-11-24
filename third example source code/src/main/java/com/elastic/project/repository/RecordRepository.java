@@ -28,6 +28,8 @@ public interface RecordRepository extends ElasticsearchRepository<LogRecord, Lon
 	
 	List<LogRecord> findByDateBetweenOrderByIdDesc(LocalDateTime date1, LocalDateTime date2);	// finds between two dates and sort largest to smallest
 
+	List<LogRecord> findByDateBetweenOrderByIdAsc(LocalDateTime date1, LocalDateTime date2);	// finds between two dates and sort smallest to largest
+
 
 }
 

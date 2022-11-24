@@ -37,6 +37,11 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	public void deleteById(Long id) {
+		recordRepository.deleteById(id);
+	}
+
+	@Override
 	public List<LogRecord> findByMessage(String message) {
 		return recordRepository.findByMessage(message);
 	}
@@ -80,6 +85,13 @@ public class RecordServiceImpl implements RecordService {
 	public List<LogRecord> findByDateBetweenOrderByIdDesc(LocalDateTime date1, LocalDateTime date2) {
 		return recordRepository.findByDateBetweenOrderByIdDesc(date1, date2);
 	}
+
+	@Override
+	public List<LogRecord> findByDateBetweenOrderByIdAsc(LocalDateTime date1, LocalDateTime date2) {
+		return recordRepository.findByDateBetweenOrderByIdAsc(date1, date2);
+	}
+
+
 
 
 	/*

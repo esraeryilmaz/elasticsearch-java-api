@@ -78,6 +78,14 @@ public class LogRecord {
 		this.severity = severity;
 	}
 
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
 	@Override
 	public String toString() {
 		return "LogRecord [id=" + id + ", date=" + date + ", className=" + className + ", severity=" + severity
